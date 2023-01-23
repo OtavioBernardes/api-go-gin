@@ -8,7 +8,6 @@ import (
 type provider struct {
 	database database.Provider
 }
-
 type StudentInterface interface {
 	GetAll(ctx *gin.Context)
 	GetOne(ctx *gin.Context)
