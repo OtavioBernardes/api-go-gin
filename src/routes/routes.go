@@ -6,9 +6,10 @@ import (
 )
 
 func HandleRequest(server *gin.Engine) {
-	server.GET("/student", StudentController.GetAll)
-	server.GET("/student/:id", StudentController.GetOne)
-	server.POST("/student", StudentController.Save)
-	server.DELETE("/student/:id", StudentController.Delete)
-	server.PATCH("/student/:id", StudentController.Update)
+	studentController := StudentController.New()
+	server.GET("/student", studentController.GetAll)
+	server.GET("/student/:id", studentController.GetOne)
+	server.POST("/student", studentController.Save)
+	server.DELETE("/student/:id", studentController.Delete)
+	server.PATCH("/student/:id", studentController.Update)
 }

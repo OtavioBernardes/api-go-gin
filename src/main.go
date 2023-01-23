@@ -9,6 +9,6 @@ import (
 func main() {
 	r := gin.Default()
 	routes.HandleRequest(r)
-	database.Init()
+	database.New()
 	r.Run(":3000")
 }

@@ -8,18 +8,24 @@ import (
 	Models "github.com/otaviobernardes/api-go-gin/src/models"
 )
 
-func GetAll(c *gin.Context) {
+func New() StudentInterface {
+	return &provider{
+		database: *database.New(),
+	}
+}
+
+func (p *provider) GetAll(c *gin.Context) {
 	var students []Models.Student
-	database.Db.Find(&students)
+	p.database.Db.Find(&students)
 
 	c.JSON(http.StatusAccepted, students)
 }
 
-func GetOne(c *gin.Context) {
+func (p *provider) GetOne(c *gin.Context) {
 	var student Models.Student
 	id := c.Params.ByName("id")
 
-	database.Db.First(&student, id)
+	p.database.Db.First(&student, id)
 	if student.ID == 0 {
 		c.JSON(http.StatusNotFound, gin.H{
 			"message": "Student not found",
@@ -30,7 +36,7 @@ func GetOne(c *gin.Context) {
 	c.JSON(http.StatusOK, student)
 }
 
-func Save(c *gin.Context) {
+func (p *provider) Save(c *gin.Context) {
 
 	var student Models.Student
 	if err := c.ShouldBindJSON(&student); err != nil {
@@ -39,32 +45,32 @@ func Save(c *gin.Context) {
 		return
 	}
 
-	database.Db.Create(&student)
+	p.database.Db.Create(&student)
 	c.JSON(http.StatusOK, student)
 }
 
-func Delete(c *gin.Context) {
+func (p *provider) Delete(c *gin.Context) {
 	var student Models.Student
 	id := c.Params.ByName("id")
 
-	database.Db.Delete(&student, id)
+	p.database.Db.Delete(&student, id)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Student deleted",
 	})
 }
 
-func Update(c *gin.Context) {
+func (p *provider) Update(c *gin.Context) {
 	var student Models.Student
 	id := c.Params.ByName("id")
 
-	database.Db.First(&student, id)
+	p.database.Db.First(&student, id)
 	if err := c.ShouldBindJSON(&student); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
 		return
 	}
 
-	database.Db.Model(&student).UpdateColumns(student)
+	p.database.Db.Model(&student).UpdateColumns(student)
 	c.JSON(http.StatusOK, student)
 }
