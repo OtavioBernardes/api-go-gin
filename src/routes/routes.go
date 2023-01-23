@@ -10,6 +10,7 @@ func HandleRequest(server *gin.Engine) {
 	studentController := StudentController.New(
 		*database.New(),
 	)
+
 	server.GET("/student", studentController.GetAll)
 	server.GET("/student/:id", studentController.GetOne)
 	server.POST("/student", studentController.Save)
