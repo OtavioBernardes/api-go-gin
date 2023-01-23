@@ -8,9 +8,9 @@ import (
 	Models "github.com/otaviobernardes/api-go-gin/src/models"
 )
 
-func New() StudentInterface {
+func New(d database.Provider) StudentInterface {
 	return &provider{
-		database: *database.New(),
+		database: d,
 	}
 }
 
