@@ -8,11 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Provider struct {
-	Db *gorm.DB
-}
-
-func New() *Provider {
+func New() *gorm.DB {
 	var Db *gorm.DB
 	var dbName = "api-go-gin"
 	var dbPassword = "test@123"
@@ -29,7 +25,5 @@ func New() *Provider {
 
 	Db.AutoMigrate(&Models.Student{})
 
-	return &Provider{
-		Db: Db,
-	}
+	return Db
 }
