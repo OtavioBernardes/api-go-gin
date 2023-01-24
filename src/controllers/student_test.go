@@ -1,4 +1,4 @@
-package StudentController
+package studentController
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/otaviobernardes/api-go-gin/src/external/database"
+	repoStudent "github.com/otaviobernardes/api-go-gin/src/repositores/student"
 )
 
 func SetupRouter() *gin.Engine {
@@ -24,7 +24,9 @@ func Test_provider_GetAll(t *testing.T) {
 			wantStatusCode: "200",
 		},
 	}
-	studentController := New(*database.New())
+	studentRepository := repoStudent.New()
+	studentController := New(studentRepository)
+
 	r := SetupRouter()
 
 	for _, tt := range tests {
